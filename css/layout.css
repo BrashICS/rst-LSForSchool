@@ -1,4 +1,13 @@
-div {
-  width: 20%;
-  border: 20px, black;
+table {
+  width: 50%;
+}
+
+td {
+  width: 10%;
+  border: 2px solid black;
+  padding: 50px;
+
+  text-align: center;
+  font-size: xx-large;
+  font-family: Arial, Helvetica, sans-serif;
 }

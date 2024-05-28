@@ -8,6 +8,8 @@
 
 document.getElementById("space03").addEventListener("click", onSelect);
 
+let testCount = 0;
+
 function onSelect() {
-  console.log("This is a test");
+  document.getElementById("space03").innerText = ++testCount;
 }
