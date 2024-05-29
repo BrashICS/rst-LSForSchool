@@ -4,8 +4,10 @@ table {
 
 td {
   width: 10%;
-  border: 2px solid black;
+  border: 2px solid sandybrown;
   padding: 50px;
+
+  background-color: bisque;
 
   text-align: center;
   font-size: xx-large;
