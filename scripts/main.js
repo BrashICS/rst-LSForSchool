@@ -37,7 +37,7 @@ function onSelect(event) {
     }
   }
 
-  // Colour Change
+  // Colour Change, (it will only select 4 at a time)
   if (!colourLock) {
     if (document.getElementById(event.target.id).style.backgroundColor != "sandybrown") {
       document.getElementById(event.target.id).style.backgroundColor = "sandybrown";
@@ -47,7 +47,7 @@ function onSelect(event) {
   }
 }
 
-// Checks the array of selections to see if it's full
+// Checks the array of selections to see if the array is full
 function fullSelections() {
   for (let checkTile = 0; checkTile <= 3; checkTile++) {
     if (selectedTiles[checkTile] == "empty") {
