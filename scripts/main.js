@@ -8,11 +8,17 @@
 
 // Event Listeners
 document.getElementById("wordTable").addEventListener("click", onSelect);
-document.getElementById("clearArray").addEventListener("click", clearArray);
+document.getElementById("clearArrayButton").addEventListener("click", clearArray);
+document.getElementById("submitArrayButton").addEventListener("click", submitArray)
 
 // Global Variables
-const wordGrid = [[false, false, false, false], [false, false, false, false], [false, false, false, false], [false, false, false, false]];
+const wordGrid = [["empty", "empty", "empty", "empty"], ["empty", "empty", "empty", "empty"], ["empty", "empty", "empty", "empty"], ["empty", "empty", "empty", "empty"]];
 const selectedTiles = ["empty", "empty", "empty", "empty"]
+
+const easyCategories = loadFile("../categories/easyCategories")
+const mediumCategories = loadFile("../categories/mediumCategories")
+const hardCategories = loadFile("../categories/hardCategories")
+const stupidCategories = loadFile("../categories/stupidCategories")
 
 function onSelect(event) {
   // Local Variables
@@ -67,4 +73,31 @@ function clearArray() {
       document.getElementById(clearColour).style.backgroundColor = "bisque";
     }
   }
+}
+
+// Submits the function as a guess
+function submitArray() {
+  if (fullSelections()) {
+    const wordArray = [document.getElementById(selectedTiles[0]).innerText, document.getElementById(selectedTiles[1]).innerText, document.getElementById(selectedTiles[2]).innerText, document.getElementById(selectedTiles[3]).innerText];
+
+    const sortedArray = wordArray.sort();
+  } else {
+    alert("All submits must have 4 selections.");
+  }
+}
+
+function chooseCategory(categoryArray) {
+  //
+}
+
+/** Returns an array, split on new line character by default */
+function loadFile(filePath, splitChar = '\n') {
+  var result = null;
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET", filePath, false);
+  xmlhttp.send();
+  if (xmlhttp.status==200) {
+    result = xmlhttp.responseText;
+  }
+  return result.split(splitChar);
 }
