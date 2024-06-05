@@ -10,15 +10,21 @@
 document.getElementById("wordTable").addEventListener("click", onSelect);
 document.getElementById("clearArrayButton").addEventListener("click", clearArray);
 document.getElementById("submitArrayButton").addEventListener("click", submitArray)
+document.getElementById("startGameButton").addEventListener("click", chooseCategory)
 
 // Global Variables
 const wordGrid = [["empty", "empty", "empty", "empty"], ["empty", "empty", "empty", "empty"], ["empty", "empty", "empty", "empty"], ["empty", "empty", "empty", "empty"]];
-const selectedTiles = ["empty", "empty", "empty", "empty"]
+const selectedTiles = ["empty", "empty", "empty", "empty"];
 
-const easyCategories = loadFile("../categories/easyCategories")
-const mediumCategories = loadFile("../categories/mediumCategories")
-const hardCategories = loadFile("../categories/hardCategories")
-const stupidCategories = loadFile("../categories/stupidCategories")
+const easyCategories = loadFile("../categories/easyCategories.jon");
+const mediumCategories = loadFile("../categories/mediumCategories.jon");
+const hardCategories = loadFile("../categories/hardCategories.jon");
+const stupidCategories = loadFile("../categories/stupidCategories.jon");
+
+let chosenEasy = [];
+let chosenMedium = [];
+let chosenHard = [];
+let chosenStupid = [];
 
 function onSelect(event) {
   // Local Variables
@@ -86,8 +92,27 @@ function submitArray() {
   }
 }
 
-function chooseCategory(categoryArray) {
-  //
+function chooseCategory() {
+  chosenEasy = easyCategories[Math.floor(Math.random() * easyCategories.length - 1)];
+  chosenMedium = mediumCategories[Math.floor(Math.random() * mediumCategories.length - 1)];
+  chosenHard = hardCategories[Math.floor(Math.random() * hardCategories.length - 1)];
+  chosenStupid = stupidCategories[Math.floor(Math.random() * stupidCategories.length - 1)];
+
+  chosenEasy = chosenEasy.split(", ");
+  chosenMedium = chosenMedium.split(", ");
+  chosenHard = chosenHard.split(", ");
+  chosenStupid = chosenStupid.split(", ");
+
+  console.log(chosenEasy);
+  console.log(chosenMedium);
+  console.log(chosenHard);
+  console.log(chosenStupid);
+
+  for (let scroll = 0; scroll <= 3; scroll++) {
+    for (let through = 0; through <= 3; through++) {
+      let idVariable = "space" + scroll + "_" + through;
+    }
+  }
 }
 
 /** Returns an array, split on new line character by default */
