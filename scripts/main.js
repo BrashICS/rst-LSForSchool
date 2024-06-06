@@ -13,7 +13,7 @@ document.getElementById("submitArrayButton").addEventListener("click", submitArr
 document.getElementById("startGameButton").addEventListener("click", chooseCategory)
 
 // Global Variables
-const wordGrid = [["empty", "empty", "empty", "empty"], ["empty", "empty", "empty", "empty"], ["empty", "empty", "empty", "empty"], ["empty", "empty", "empty", "empty"]];
+const wordGrid = ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"];
 const selectedTiles = ["empty", "empty", "empty", "empty"];
 
 const easyCategories = loadFile("../categories/easyCategories.jon");
@@ -21,10 +21,8 @@ const mediumCategories = loadFile("../categories/mediumCategories.jon");
 const hardCategories = loadFile("../categories/hardCategories.jon");
 const stupidCategories = loadFile("../categories/stupidCategories.jon");
 
-let chosenEasy = [];
-let chosenMedium = [];
-let chosenHard = [];
-let chosenStupid = [];
+let chosenCategories;
+let splitCategories;
 
 function onSelect(event) {
   // Local Variables
@@ -93,30 +91,37 @@ function submitArray() {
 }
 
 function chooseCategory() {
-  chosenEasy = easyCategories[Math.floor(Math.random() * easyCategories.length - 1)];
-  chosenMedium = mediumCategories[Math.floor(Math.random() * mediumCategories.length - 1)];
-  chosenHard = hardCategories[Math.floor(Math.random() * hardCategories.length - 1)];
-  chosenStupid = stupidCategories[Math.floor(Math.random() * stupidCategories.length - 1)];
+  const tilePositions = []
+  splitCategories = ["Empty", "Empty", "Empty", "Empty"];
+  let positionLock = false;
 
-  chosenEasy = chosenEasy.split(", ");
-  chosenMedium = chosenMedium.split(", ");
-  chosenHard = chosenHard.split(", ");
-  chosenStupid = chosenStupid.split(", ");
+  chosenCategories = [easyCategories[Math.floor(Math.random() * easyCategories.length)], mediumCategories[Math.floor(Math.random() * mediumCategories.length)], hardCategories[Math.floor(Math.random() * hardCategories.length)], stupidCategories[Math.floor(Math.random() * stupidCategories.length)]]
 
-  console.log(chosenEasy);
-  console.log(chosenMedium);
-  console.log(chosenHard);
-  console.log(chosenStupid);
+  for (let splitter = 0; splitter < chosenCategories.length; splitter++) {
+    splitCategories[splitter] = chosenCategories[splitter].split(", ");
+  }
 
-  for (let scroll = 0; scroll <= 3; scroll++) {
-    for (let through = 0; through <= 3; through++) {
-      let idVariable = "space" + scroll + "_" + through;
+  for (let numAdder = 0; numAdder <= 15; numAdder++) {
+    let randomPosition = Math.floor(Math.random() * 16);
+    for (let numCheck = 0; numCheck < tilePositions.length; numCheck++) {
+      positionLock = false;
+      if (numCheck == 0) {
+        tilePositions.push(randomPosition);
+      } else if (randomPosition == tilePositions[numCheck]) {
+        positionLock = true;
+      }
+
+      if (numCheck == tilePositions.length - 1 && randomPosition != tilePositions[numCheck - 1] && !positionLock) {
+        tilePositions.push(randomPosition);
+      }
     }
   }
+
+  console.log(tilePositions);
 }
 
 /** Returns an array, split on new line character by default */
-function loadFile(filePath, splitChar = '\n') {
+function loadFile(filePath, splitChar = '|') {
   var result = null;
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.open("GET", filePath, false);
