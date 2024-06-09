@@ -23,6 +23,7 @@ const stupidCategories = loadFile("../categories/stupidCategories.jon");
 
 let chosenCategories;
 let splitCategories;
+let tilePositions;
 
 function onSelect(event) {
   // Local Variables
@@ -91,9 +92,8 @@ function submitArray() {
 }
 
 function chooseCategory() {
-  const tilePositions = []
+  tilePositions = []
   splitCategories = ["Empty", "Empty", "Empty", "Empty"];
-  let positionLock = false;
 
   chosenCategories = [easyCategories[Math.floor(Math.random() * easyCategories.length)], mediumCategories[Math.floor(Math.random() * mediumCategories.length)], hardCategories[Math.floor(Math.random() * hardCategories.length)], stupidCategories[Math.floor(Math.random() * stupidCategories.length)]]
 
@@ -101,23 +101,24 @@ function chooseCategory() {
     splitCategories[splitter] = chosenCategories[splitter].split(", ");
   }
 
-  for (let numAdder = 0; numAdder <= 15; numAdder++) {
+  while (tilePositions.length < 16) {
     let randomPosition = Math.floor(Math.random() * 16);
-    for (let numCheck = 0; numCheck < tilePositions.length; numCheck++) {
-      positionLock = false;
-      if (numCheck == 0) {
-        tilePositions.push(randomPosition);
-      } else if (randomPosition == tilePositions[numCheck]) {
-        positionLock = true;
-      }
+    let tilePushLock = false;
+    let tileAdded = false;
 
-      if (numCheck == tilePositions.length - 1 && randomPosition != tilePositions[numCheck - 1] && !positionLock) {
-        tilePositions.push(randomPosition);
+    if (tilePositions.length == 0) {
+      tilePositions.push(randomPosition);
+    } else {
+      for (let numCheck = 0; numCheck <= tilePositions.length - 1 && !tileAdded; tilePositions++) {
+        if (randomPosition == tilePositions[numCheck]) {
+          tilePushLock = true;
+        } else if (!tilePushLock && numCheck == tilePositions.length - 1) {
+          tilePositions.push(randomPosition);
+          tileAdded = true;
+        }
       }
     }
   }
-
-  console.log(tilePositions);
 }
 
 /** Returns an array, split on new line character by default */
