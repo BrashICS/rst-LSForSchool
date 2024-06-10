@@ -94,6 +94,9 @@ function submitArray() {
 function chooseCategory() {
   tilePositions = [];
   splitCategories = ["Empty", "Empty", "Empty", "Empty"];
+  let idArray = [];
+  let shortWordArray = [];
+  let randomShortArray = [];
 
   chosenCategories = [easyCategories[Math.floor(Math.random() * easyCategories.length)], mediumCategories[Math.floor(Math.random() * mediumCategories.length)], hardCategories[Math.floor(Math.random() * hardCategories.length)], stupidCategories[Math.floor(Math.random() * stupidCategories.length)]]
 
@@ -101,8 +104,13 @@ function chooseCategory() {
     splitCategories[splitter] = chosenCategories[splitter].split(", ");
   }
 
+  for (let categorySelect = 0; categorySelect <= 3; categorySelect++) {
+    for (let placeSelected = 1; placeSelected <= 4; placeSelected++) {
+      shortWordArray.push(splitCategories[categorySelect][placeSelected]);
+    }
+  }
+
   while (tilePositions.length < 16) {
-    console.log("Start" + tilePositions);
     let randomPosition = Math.floor(Math.random() * 16);
     let tilePushLock = false;
     let tileAdded = false;
@@ -121,12 +129,18 @@ function chooseCategory() {
     }
   }
 
+  for (let setRandom = 0; setRandom <= 15; setRandom++) {
+    randomShortArray.push(shortWordArray[tilePositions[setRandom]]);
+  }
+
   for (let spaceIdNumOne = 0; spaceIdNumOne <= 3; spaceIdNumOne++) {
     for (let spaceIdNumTwo = 0; spaceIdNumTwo <= 3; spaceIdNumTwo++) {
-      let fullSpaceId = "space" + spaceIdNumOne + "_" + spaceIdNumTwo;
-
-      //
+      idArray.push("space" + spaceIdNumOne + "_" + spaceIdNumTwo);
     }
+  }
+
+  for (let thisIsTooManyForLoops = 0; thisIsTooManyForLoops <= 15; thisIsTooManyForLoops++) {
+    document.getElementById(idArray[thisIsTooManyForLoops]).innerText = randomShortArray[thisIsTooManyForLoops];
   }
 }
 
