@@ -92,7 +92,7 @@ function submitArray() {
 }
 
 function chooseCategory() {
-  tilePositions = []
+  tilePositions = [];
   splitCategories = ["Empty", "Empty", "Empty", "Empty"];
 
   chosenCategories = [easyCategories[Math.floor(Math.random() * easyCategories.length)], mediumCategories[Math.floor(Math.random() * mediumCategories.length)], hardCategories[Math.floor(Math.random() * hardCategories.length)], stupidCategories[Math.floor(Math.random() * stupidCategories.length)]]
@@ -102,6 +102,7 @@ function chooseCategory() {
   }
 
   while (tilePositions.length < 16) {
+    console.log("Start" + tilePositions);
     let randomPosition = Math.floor(Math.random() * 16);
     let tilePushLock = false;
     let tileAdded = false;
@@ -109,14 +110,22 @@ function chooseCategory() {
     if (tilePositions.length == 0) {
       tilePositions.push(randomPosition);
     } else {
-      for (let numCheck = 0; numCheck <= tilePositions.length - 1 && !tileAdded; tilePositions++) {
+      for (let numCheck = 0; numCheck < tilePositions.length && !tileAdded; numCheck++) {
         if (randomPosition == tilePositions[numCheck]) {
           tilePushLock = true;
-        } else if (!tilePushLock && numCheck == tilePositions.length - 1) {
+        } else if (numCheck == tilePositions.length - 1 && !tilePushLock) {
           tilePositions.push(randomPosition);
           tileAdded = true;
         }
       }
+    }
+  }
+
+  for (let spaceIdNumOne = 0; spaceIdNumOne <= 3; spaceIdNumOne++) {
+    for (let spaceIdNumTwo = 0; spaceIdNumTwo <= 3; spaceIdNumTwo++) {
+      let fullSpaceId = "space" + spaceIdNumOne + "_" + spaceIdNumTwo;
+
+      //
     }
   }
 }
