@@ -10,11 +10,12 @@
 document.getElementById("wordTable").addEventListener("click", onSelect);
 document.getElementById("clearArrayButton").addEventListener("click", clearArray);
 document.getElementById("submitArrayButton").addEventListener("click", submitArray)
-document.getElementById("startGameButton").addEventListener("click", chooseCategory)
+document.getElementById("startGameButton").addEventListener("click", chooseCategories)
 
 // Global Variables
 const wordGrid = ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"];
 const selectedTiles = ["empty", "empty", "empty", "empty"];
+const correctCategories = [false, false, false, false];
 
 const easyCategories = loadFile("../categories/easyCategories.jon");
 const mediumCategories = loadFile("../categories/mediumCategories.jon");
@@ -86,61 +87,101 @@ function submitArray() {
     const wordArray = [document.getElementById(selectedTiles[0]).innerText, document.getElementById(selectedTiles[1]).innerText, document.getElementById(selectedTiles[2]).innerText, document.getElementById(selectedTiles[3]).innerText];
 
     const sortedArray = wordArray.sort();
+    let guessedCategoryNum = -1;
+    let guessedCategory = false;
+    let sortedSelect = selectedTiles;
+
+    for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
+      sortedSelect[lowerCaser] = sortedSelect[lowerCaser].toLowerCase();
+    }
+    sortedSelect.sort();
+
+    let splitUsableArray = [];
+
+    for (let categoryScroll = 0; categoryScroll <= 3 && !guessedCategory; categoryScroll++) {
+      for (let splitCategoryScroll = 1; splitCategoryScroll <= 4; splitCategoryScroll++) {
+        splitUsableArray.push(splitCategories[categoryScroll][splitCategoryScroll]);
+      }
+
+      for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
+        splitUsableArray[lowerCaser] = splitUsableArray[lowerCaser].toLowerCase();
+      }
+
+      splitUsableArray.sort();
+
+      for (let contentCheck = 0; contentCheck <= 3 && !guessedCategory; contentCheck++) {
+        let wrongCount = 0;
+        if (sortedSelect[contentCheck] != splitCategories.sort()[categoryScroll][contentCheck]) {
+          wrongCount++;
+        } else if (contentCheck == 3 && sortedArray[contentCheck] == splitCategories[categoryScroll][contentCheck] && wrongCount == 0) {
+          guessedCategoryNum = categoryScroll;
+          guessedCategory = true;
+        }
+      }
+    }
+
+    console.log(guessedCategoryNum);
+
   } else {
     alert("All submits must have 4 selections.");
   }
 }
 
-function chooseCategory() {
-  tilePositions = [];
-  splitCategories = ["Empty", "Empty", "Empty", "Empty"];
-  let idArray = [];
-  let shortWordArray = [];
-  let randomShortArray = [];
+function chooseCategories() {
+  if (confirm("Are you sure you want to start a new game?\nYou will lose your progress on your previous game") == true) {
 
-  chosenCategories = [easyCategories[Math.floor(Math.random() * easyCategories.length)], mediumCategories[Math.floor(Math.random() * mediumCategories.length)], hardCategories[Math.floor(Math.random() * hardCategories.length)], stupidCategories[Math.floor(Math.random() * stupidCategories.length)]]
+    clearArray();
 
-  for (let splitter = 0; splitter < chosenCategories.length; splitter++) {
-    splitCategories[splitter] = chosenCategories[splitter].split(", ");
-  }
+    tilePositions = [];
+    splitCategories = ["Empty", "Empty", "Empty", "Empty"];
+    let idArray = [];
+    let shortWordArray = [];
+    let randomShortArray = [];
 
-  for (let categorySelect = 0; categorySelect <= 3; categorySelect++) {
-    for (let placeSelected = 1; placeSelected <= 4; placeSelected++) {
-      shortWordArray.push(splitCategories[categorySelect][placeSelected]);
+    chosenCategories = [easyCategories[Math.floor(Math.random() * easyCategories.length)], mediumCategories[Math.floor(Math.random() * mediumCategories.length)], hardCategories[Math.floor(Math.random() * hardCategories.length)], stupidCategories[Math.floor(Math.random() * stupidCategories.length)]]
+
+    for (let splitter = 0; splitter < chosenCategories.length; splitter++) {
+      splitCategories[splitter] = chosenCategories[splitter].split(", ");
     }
-  }
 
-  while (tilePositions.length < 16) {
-    let randomPosition = Math.floor(Math.random() * 16);
-    let tilePushLock = false;
-    let tileAdded = false;
+    for (let categorySelect = 0; categorySelect <= 3; categorySelect++) {
+      for (let placeSelected = 1; placeSelected <= 4; placeSelected++) {
+        shortWordArray.push(splitCategories[categorySelect][placeSelected]);
+      }
+    }
 
-    if (tilePositions.length == 0) {
-      tilePositions.push(randomPosition);
-    } else {
-      for (let numCheck = 0; numCheck < tilePositions.length && !tileAdded; numCheck++) {
-        if (randomPosition == tilePositions[numCheck]) {
-          tilePushLock = true;
-        } else if (numCheck == tilePositions.length - 1 && !tilePushLock) {
-          tilePositions.push(randomPosition);
-          tileAdded = true;
+    while (tilePositions.length < 16) {
+      let randomPosition = Math.floor(Math.random() * 16);
+      let tilePushLock = false;
+      let tileAdded = false;
+
+      if (tilePositions.length == 0) {
+        tilePositions.push(randomPosition);
+      } else {
+        for (let numCheck = 0; numCheck < tilePositions.length && !tileAdded; numCheck++) {
+          if (randomPosition == tilePositions[numCheck]) {
+            tilePushLock = true;
+          } else if (numCheck == tilePositions.length - 1 && !tilePushLock) {
+            tilePositions.push(randomPosition);
+            tileAdded = true;
+          }
         }
       }
     }
-  }
 
-  for (let setRandom = 0; setRandom <= 15; setRandom++) {
-    randomShortArray.push(shortWordArray[tilePositions[setRandom]]);
-  }
-
-  for (let spaceIdNumOne = 0; spaceIdNumOne <= 3; spaceIdNumOne++) {
-    for (let spaceIdNumTwo = 0; spaceIdNumTwo <= 3; spaceIdNumTwo++) {
-      idArray.push("space" + spaceIdNumOne + "_" + spaceIdNumTwo);
+    for (let setRandom = 0; setRandom <= 15; setRandom++) {
+      randomShortArray.push(shortWordArray[tilePositions[setRandom]]);
     }
-  }
 
-  for (let thisIsTooManyForLoops = 0; thisIsTooManyForLoops <= 15; thisIsTooManyForLoops++) {
-    document.getElementById(idArray[thisIsTooManyForLoops]).innerText = randomShortArray[thisIsTooManyForLoops];
+    for (let spaceIdNumOne = 0; spaceIdNumOne <= 3; spaceIdNumOne++) {
+      for (let spaceIdNumTwo = 0; spaceIdNumTwo <= 3; spaceIdNumTwo++) {
+        idArray.push("space" + spaceIdNumOne + "_" + spaceIdNumTwo);
+      }
+    }
+
+    for (let thisIsTooManyForLoops = 0; thisIsTooManyForLoops <= 15; thisIsTooManyForLoops++) {
+      document.getElementById(idArray[thisIsTooManyForLoops]).innerText = randomShortArray[thisIsTooManyForLoops];
+    }
   }
 }
 
