@@ -86,36 +86,40 @@ function submitArray() {
   if (fullSelections()) {
     const wordArray = [document.getElementById(selectedTiles[0]).innerText, document.getElementById(selectedTiles[1]).innerText, document.getElementById(selectedTiles[2]).innerText, document.getElementById(selectedTiles[3]).innerText];
 
-    const sortedArray = wordArray.sort();
+    const sortedSelections = wordArray.toSorted();
     let guessedCategoryNum = -1;
     let guessedCategory = false;
-    let sortedSelect = selectedTiles;
-
-    for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
-      sortedSelect[lowerCaser] = sortedSelect[lowerCaser].toLowerCase();
-    }
-    sortedSelect.sort();
-
     let splitUsableArray = [];
 
+    for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
+      sortedSelections[lowerCaser] = sortedSelections[lowerCaser].toLowerCase();
+    }
+    sortedSelections.sort();
+
     for (let categoryScroll = 0; categoryScroll <= 3 && !guessedCategory; categoryScroll++) {
-      for (let splitCategoryScroll = 1; splitCategoryScroll <= 4; splitCategoryScroll++) {
-        splitUsableArray.push(splitCategories[categoryScroll][splitCategoryScroll]);
-      }
+      splitUsableArray.push(splitCategories[categoryScroll]);
+    }
 
+    for (let categorySelect = 0; categorySelect <= 3; categorySelect++) {
       for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
-        splitUsableArray[lowerCaser] = splitUsableArray[lowerCaser].toLowerCase();
+        splitUsableArray[categorySelect][lowerCaser] = splitUsableArray[categorySelect][lowerCaser].toLowerCase();
       }
+      splitUsableArray[categorySelect].sort();
+    }
 
-      splitUsableArray.sort();
+    for (let sortsplitUsableArray = 0; sortsplitUsableArray <= 3; sortsplitUsableArray++) {
+      splitUsableArray[sortsplitUsableArray].sort();
+    }
 
+    for (let categoryScroll = 0; categoryScroll <= 3 && !guessedCategory; categoryScroll++) {
       for (let contentCheck = 0; contentCheck <= 3 && !guessedCategory; contentCheck++) {
         let wrongCount = 0;
-        if (sortedSelect[contentCheck] != splitCategories.sort()[categoryScroll][contentCheck]) {
+        if (sortedSelections[contentCheck] != splitUsableArray[categoryScroll][contentCheck]) {
           wrongCount++;
-        } else if (contentCheck == 3 && sortedArray[contentCheck] == splitCategories[categoryScroll][contentCheck] && wrongCount == 0) {
+        } else if (contentCheck == 3 && sortedSelections[contentCheck] == splitUsableArray[categoryScroll][contentCheck] && wrongCount == 0) {
           guessedCategoryNum = categoryScroll;
           guessedCategory = true;
+          console.log(guessedCategoryNum);
         }
       }
     }
