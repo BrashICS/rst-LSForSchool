@@ -104,28 +104,26 @@ function submitArray() {
       for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
         splitUsableArray[categorySelect][lowerCaser] = splitUsableArray[categorySelect][lowerCaser].toLowerCase();
       }
-      splitUsableArray[categorySelect].sort();
     }
 
-    for (let sortsplitUsableArray = 0; sortsplitUsableArray <= 3; sortsplitUsableArray++) {
-      splitUsableArray[sortsplitUsableArray].sort();
-    }
 
+    // PUT THE VARIABLE STUFF OUTSIDE THE FOR LOOP
     for (let categoryScroll = 0; categoryScroll <= 3 && !guessedCategory; categoryScroll++) {
-      for (let contentCheck = 0; contentCheck <= 3 && !guessedCategory; contentCheck++) {
-        let wrongCount = 0;
-        if (sortedSelections[contentCheck] != splitUsableArray[categoryScroll][contentCheck]) {
-          wrongCount++;
-        } else if (contentCheck == 3 && sortedSelections[contentCheck] == splitUsableArray[categoryScroll][contentCheck] && wrongCount == 0) {
-          guessedCategoryNum = categoryScroll;
-          guessedCategory = true;
-          console.log(guessedCategoryNum);
-        }
+      let verificationArray = splitUsableArray[categoryScroll].toSorted();
+      let unshiftedSelections = sortedSelections;
+      unshiftedSelections.unshift(splitUsableArray[categoryScroll][0])
+
+      let sortedUnshiftSelections = unshiftedSelections.toSorted();
+
+      console.log(verificationArray);
+      console.log(sortedUnshiftSelections);
+
+      if (sortedUnshiftSelections == verificationArray) {
+        guessedCategory = true;
+        guessedCategoryNum = categoryScroll;
       }
     }
-
     console.log(guessedCategoryNum);
-
   } else {
     alert("All submits must have 4 selections.");
   }
