@@ -106,24 +106,29 @@ function submitArray() {
       }
     }
 
-
-    // PUT THE VARIABLE STUFF OUTSIDE THE FOR LOOP
     for (let categoryScroll = 0; categoryScroll <= 3 && !guessedCategory; categoryScroll++) {
-      let verificationArray = splitUsableArray[categoryScroll].toSorted();
-      let unshiftedSelections = sortedSelections;
-      unshiftedSelections.unshift(splitUsableArray[categoryScroll][0])
+      let verificationArray = splitUsableArray[categoryScroll];
+      verificationArray.shift();
+      verificationArray.sort();
 
-      let sortedUnshiftSelections = unshiftedSelections.toSorted();
+      for (let yetAnotherForLoop = 0; yetAnotherForLoop <= 3; yetAnotherForLoop++) {
+        sortedSelections[yetAnotherForLoop] = sortedSelections[yetAnotherForLoop].trimEnd();
+        verificationArray[yetAnotherForLoop] = verificationArray[yetAnotherForLoop].trimEnd();
+      }
 
-      console.log(verificationArray);
-      console.log(sortedUnshiftSelections);
+      let correctCount = 0;
 
-      if (sortedUnshiftSelections == verificationArray) {
-        guessedCategory = true;
+      for (let oneMoreHeckingForLoop = 0; oneMoreHeckingForLoop <= 3; oneMoreHeckingForLoop++) {
+        if (verificationArray[oneMoreHeckingForLoop] == sortedSelections[oneMoreHeckingForLoop]) {
+          correctCount++;
+        }
+      }
+
+      if (correctCount == 4) {
         guessedCategoryNum = categoryScroll;
+        guessedCategory = true;
       }
     }
-    console.log(guessedCategoryNum);
   } else {
     alert("All submits must have 4 selections.");
   }
