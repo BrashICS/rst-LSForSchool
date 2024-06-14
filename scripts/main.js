@@ -84,12 +84,13 @@ function clearArray() {
 // Submits the function as a guess
 function submitArray() {
   if (fullSelections()) {
-    const wordArray = [document.getElementById(selectedTiles[0]).innerText, document.getElementById(selectedTiles[1]).innerText, document.getElementById(selectedTiles[2]).innerText, document.getElementById(selectedTiles[3]).innerText];
-
-    const sortedSelections = wordArray.toSorted();
+    const sortedSelections = [document.getElementById(selectedTiles[0]).innerText, document.getElementById(selectedTiles[1]).innerText, document.getElementById(selectedTiles[2]).innerText, document.getElementById(selectedTiles[3]).innerText];
     let guessedCategoryNum = -1;
     let guessedCategory = false;
     let splitUsableArray = [];
+
+    // REPLACE THIS WITH THE CATEGORIES
+    const verifyCategories = [[], [], [], []];
 
     for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
       sortedSelections[lowerCaser] = sortedSelections[lowerCaser].toLowerCase();
@@ -97,7 +98,7 @@ function submitArray() {
     sortedSelections.sort();
 
     for (let categoryScroll = 0; categoryScroll <= 3 && !guessedCategory; categoryScroll++) {
-      splitUsableArray.push(splitCategories[categoryScroll]);
+      splitUsableArray.push(verifyCategories[categoryScroll]);
     }
 
     for (let categorySelect = 0; categorySelect <= 3; categorySelect++) {
@@ -108,10 +109,14 @@ function submitArray() {
 
     for (let categoryScroll = 0; categoryScroll <= 3 && !guessedCategory; categoryScroll++) {
       let verificationArray = splitUsableArray[categoryScroll];
+
       verificationArray.shift();
       verificationArray.sort();
 
       for (let yetAnotherForLoop = 0; yetAnotherForLoop <= 3; yetAnotherForLoop++) {
+        // Just trust the process
+        sortedSelections[yetAnotherForLoop] += "\n";
+        verificationArray[yetAnotherForLoop] += "\n";
         sortedSelections[yetAnotherForLoop] = sortedSelections[yetAnotherForLoop].trimEnd();
         verificationArray[yetAnotherForLoop] = verificationArray[yetAnotherForLoop].trimEnd();
       }
