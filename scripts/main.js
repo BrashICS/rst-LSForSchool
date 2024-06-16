@@ -15,7 +15,6 @@ document.getElementById("startGameButton").addEventListener("click", chooseCateg
 // Global Variables
 const wordGrid = ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"];
 const selectedTiles = ["empty", "empty", "empty", "empty"];
-const correctCategories = [false, false, false, false];
 
 const easyCategories = loadFile("../categories/easyCategories.jon");
 const mediumCategories = loadFile("../categories/mediumCategories.jon");
@@ -26,6 +25,7 @@ let chosenCategories;
 let splitCategories;
 let tilePositions;
 
+// Allows the user to select items on the grid of tiles
 function onSelect(event) {
   // Local Variables
   let checkTileLock = false;
@@ -81,64 +81,7 @@ function clearArray() {
   }
 }
 
-// Submits the function as a guess
-function submitArray() {
-  if (fullSelections()) {
-    const sortedSelections = [document.getElementById(selectedTiles[0]).innerText, document.getElementById(selectedTiles[1]).innerText, document.getElementById(selectedTiles[2]).innerText, document.getElementById(selectedTiles[3]).innerText];
-    let guessedCategoryNum = -1;
-    let guessedCategory = false;
-    let splitUsableArray = [];
-
-    // REPLACE THIS WITH THE CATEGORIES
-    const verifyCategories = [[], [], [], []];
-
-    for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
-      sortedSelections[lowerCaser] = sortedSelections[lowerCaser].toLowerCase();
-    }
-    sortedSelections.sort();
-
-    for (let categoryScroll = 0; categoryScroll <= 3 && !guessedCategory; categoryScroll++) {
-      splitUsableArray.push(verifyCategories[categoryScroll]);
-    }
-
-    for (let categorySelect = 0; categorySelect <= 3; categorySelect++) {
-      for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
-        splitUsableArray[categorySelect][lowerCaser] = splitUsableArray[categorySelect][lowerCaser].toLowerCase();
-      }
-    }
-
-    for (let categoryScroll = 0; categoryScroll <= 3 && !guessedCategory; categoryScroll++) {
-      let verificationArray = splitUsableArray[categoryScroll];
-
-      verificationArray.shift();
-      verificationArray.sort();
-
-      for (let yetAnotherForLoop = 0; yetAnotherForLoop <= 3; yetAnotherForLoop++) {
-        // Just trust the process
-        sortedSelections[yetAnotherForLoop] += "\n";
-        verificationArray[yetAnotherForLoop] += "\n";
-        sortedSelections[yetAnotherForLoop] = sortedSelections[yetAnotherForLoop].trimEnd();
-        verificationArray[yetAnotherForLoop] = verificationArray[yetAnotherForLoop].trimEnd();
-      }
-
-      let correctCount = 0;
-
-      for (let oneMoreHeckingForLoop = 0; oneMoreHeckingForLoop <= 3; oneMoreHeckingForLoop++) {
-        if (verificationArray[oneMoreHeckingForLoop] == sortedSelections[oneMoreHeckingForLoop]) {
-          correctCount++;
-        }
-      }
-
-      if (correctCount == 4) {
-        guessedCategoryNum = categoryScroll;
-        guessedCategory = true;
-      }
-    }
-  } else {
-    alert("All submits must have 4 selections.");
-  }
-}
-
+// Chooses the 4 random categories from external lists
 function chooseCategories() {
   if (confirm("Are you sure you want to start a new game?\nYou will lose your progress on your previous game") == true) {
 
@@ -152,7 +95,7 @@ function chooseCategories() {
 
     chosenCategories = [easyCategories[Math.floor(Math.random() * easyCategories.length)], mediumCategories[Math.floor(Math.random() * mediumCategories.length)], hardCategories[Math.floor(Math.random() * hardCategories.length)], stupidCategories[Math.floor(Math.random() * stupidCategories.length)]]
 
-    for (let splitter = 0; splitter < chosenCategories.length; splitter++) {
+    for (let splitter = 0; splitter <= 3; splitter++) {
       splitCategories[splitter] = chosenCategories[splitter].split(", ");
     }
 
@@ -195,6 +138,84 @@ function chooseCategories() {
       document.getElementById(idArray[thisIsTooManyForLoops]).innerText = randomShortArray[thisIsTooManyForLoops];
     }
   }
+}
+
+// Submits the function as a guess
+function submitArray() {
+  if (fullSelections()) {
+    const sortedSelections = [document.getElementById(selectedTiles[0]).innerText, document.getElementById(selectedTiles[1]).innerText, document.getElementById(selectedTiles[2]).innerText, document.getElementById(selectedTiles[3]).innerText];
+    let guessedCategoryNum = -1;
+    let guessedCategory = false;
+    let splitUsableArray = [];
+
+    const verifyCategories = splitCategories;
+
+    for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
+      sortedSelections[lowerCaser] = sortedSelections[lowerCaser].toLowerCase();
+    }
+    sortedSelections.sort();
+
+    for (let categoryScroll = 0; categoryScroll <= 3; categoryScroll++) {
+      splitUsableArray.push(verifyCategories[categoryScroll]);
+    }
+
+    for (let categorySelect = 0; categorySelect <= 3; categorySelect++) {
+      for (let lowerCaser = 0; lowerCaser <= 3; lowerCaser++) {
+        if (splitUsableArray[categorySelect].length == 4) {
+          splitUsableArray[categorySelect][lowerCaser] = splitUsableArray[categorySelect][lowerCaser].toLowerCase();
+        }
+      }
+    }
+
+    // HERE
+    for (let categoryScroll = 0; categoryScroll <= 3; categoryScroll++) {
+      let verificationArray = splitUsableArray[categoryScroll];
+
+      if (verificationArray.length == 5) {
+        verificationArray.shift();
+      }
+
+      if (verificationArray.length <= 4 && verificationArray[0].lenght > 1) {
+        verificationArray.sort();
+      }
+
+      for (let yetAnotherForLoop = 0; yetAnotherForLoop <= 3; yetAnotherForLoop++) {
+        // Just trust the process
+        sortedSelections[yetAnotherForLoop] += "\n";
+        verificationArray[yetAnotherForLoop] += "\n";
+        sortedSelections[yetAnotherForLoop] = sortedSelections[yetAnotherForLoop].trimEnd();
+        verificationArray[yetAnotherForLoop] = verificationArray[yetAnotherForLoop].trimEnd();
+      }
+
+      let correctCount = 0;
+
+      for (let oneMoreHeckingForLoop = 0; oneMoreHeckingForLoop <= 3; oneMoreHeckingForLoop++) {
+        if (verificationArray[oneMoreHeckingForLoop] == sortedSelections[oneMoreHeckingForLoop]) {
+          correctCount++;
+        }
+      }
+
+      if (correctCount == 4) {
+        guessedCategoryNum = categoryScroll;
+        guessedCategory = true;
+
+        lockCategory(guessedCategoryNum);
+        clearArray();
+      }
+      console.log(guessedCategory);
+      console.log(guessedCategoryNum);
+    }
+  } else {
+    alert("All submits must have 4 selections.");
+  }
+}
+
+function lockCategory(categoryToLock) {
+  for (let categoryNamer = 0; categoryNamer <= 3; categoryNamer++) {
+    splitCategories[categoryToLock][categoryNamer] = chosenCategories[categoryToLock][0];
+  }
+
+  console.log(splitCategories);
 }
 
 /** Returns an array, split on new line character by default */
