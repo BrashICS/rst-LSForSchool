@@ -167,7 +167,6 @@ function submitArray() {
       }
     }
 
-    // HERE
     for (let categoryScroll = 0; categoryScroll <= 3; categoryScroll++) {
       let verificationArray = splitUsableArray[categoryScroll];
 
