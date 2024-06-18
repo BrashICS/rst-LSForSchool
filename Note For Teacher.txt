@@ -1,0 +1,11 @@
+To Mr. Brash,
+It should be pretty evident that I have not finished making this game.
+
+I don't have much of a story for this, it's mostly caused by a few major errors that took me quite a while to fix, along with my sheer inability to ask for help.
+
+With that being said, I already knew that the detection for determining a correct answer wasn't working and I've given up at this point, (7:57 PM, June 17).
+
+Most of the code is an uncommented mess of my attempts at patchwork and quick fixes, all to no avail. It does manage to choose categories exactly as intended, the selection works fine, and the fancy buttons are functional, but I just couldn't fix all of the bugs.
+
+Cheers, this has been painful, (due to my own actions),
+Luke Smith
