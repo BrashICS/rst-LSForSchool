@@ -16,10 +16,10 @@ document.getElementById("startGameButton").addEventListener("click", chooseCateg
 const wordGrid = ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"];
 const selectedTiles = ["empty", "empty", "empty", "empty"];
 
-const easyCategories = loadFile("rst-LSForSchool/categories/easyCategories.jon");
-const mediumCategories = loadFile("rst-LSForSchool/categories/mediumCategories.jon");
-const hardCategories = loadFile("rst-LSForSchool/categories/hardCategories.jon");
-const stupidCategories = loadFile("rst-LSForSchool/categories/stupidCategories.jon");
+const easyCategories = loadFile("categories/easyCategories.jon");
+const mediumCategories = loadFile("categories/mediumCategories.jon");
+const hardCategories = loadFile("categories/hardCategories.jon");
+const stupidCategories = loadFile("categories/stupidCategories.jon");
 
 let chosenCategories;
 let splitCategories;
