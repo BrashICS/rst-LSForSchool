@@ -1,0 +1,16 @@
+table {
+  width: 50%;
+  user-select: none;
+}
+
+td {
+  width: 10%;
+  border: 2px solid sandybrown;
+  padding: 50px;
+
+  background-color: bisque;
+
+  text-align: center;
+  font-size: xx-large;
+  font-family: Arial, Helvetica, sans-serif;
+}
